@@ -3,7 +3,11 @@ const cache = [];
 
 const add = url => {
     if (!hash[url]) {
-        hash[url] = new Image();
+        if (url.indexOf('m4a') > -1 || url.indexOf('ogg') > -1) {
+            hash[url] = new Audio();
+        } else {
+            hash[url] = new Image();
+        }
         hash[url].src = url;
 
         cache.push(hash[url]);
@@ -21,7 +25,7 @@ const stuff = (urls) => {
     }
 };
 
-const ImageCache = {
+const ContentCache = {
     add,
     stuff,
     get,
@@ -29,4 +33,4 @@ const ImageCache = {
     cache,
 };
 
-export default ImageCache;
+export default ContentCache;

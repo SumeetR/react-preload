@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import ImageHelper from './ImageHelper';
+import ContentHelper from './ContentHelper';
 
 const propTypes = {
     // Rendered on success
@@ -8,8 +8,8 @@ const propTypes = {
     // Rendered during load
     loadingIndicator: PropTypes.node.isRequired,
 
-    // Array of image urls to be preloaded
-    images: PropTypes.array,
+    // Array of content urls to be preloaded
+    content: PropTypes.array,
 
     // If set, the preloader will automatically show
     // the children content after this amount of time
@@ -26,12 +26,12 @@ const propTypes = {
     resolveOnError: PropTypes.bool,
 
     // Whether or not we should mount the child content after
-    // images have finished loading (or after autoResolveDelay)
+    // content have finished loading (or after autoResolveDelay)
     mountChildren: PropTypes.bool,
 };
 
 const defaultProps = {
-    images: [],
+    content: [],
     resolveOnError: true,
     mountChildren: true,
 };
@@ -49,15 +49,15 @@ class Preload extends Component {
     }
 
     componentWillMount() {
-        if (!this.props.images || this.props.images.length === 0) {
+        if (!this.props.content || this.props.content.length === 0) {
             this._handleSuccess();
         }
     }
 
     componentDidMount() {
         if (!this.state.ready) {
-            ImageHelper
-                .loadImages(this.props.images)
+            ContentHelper
+                .loadContent(this.props.content)
                 .then(this._handleSuccess, this._handleError);
 
             if (this.props.autoResolveDelay && this.props.autoResolveDelay > 0) {
@@ -75,7 +75,7 @@ class Preload extends Component {
     _handleSuccess() {
         if (this.autoResolveTimeout) {
             clearTimeout(this.autoResolveTimeout);
-            console.warn('images failed to preload, auto resolving');
+            console.warn('content failed to preload, auto resolving');
         }
 
         if (this.state.ready) {

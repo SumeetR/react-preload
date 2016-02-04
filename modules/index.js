@@ -1,5 +1,5 @@
-export { default as ImageCache } from './ImageCache';
-export { default as ImageHelper } from './ImageHelper';
+export { default as ContentCache } from './ContentCache';
+export { default as ContentHelper } from './ContentHelper';
 import { default as _Preload } from './Preload';
 
 export const Preload = _Preload;
