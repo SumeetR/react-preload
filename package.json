@@ -1,6 +1,6 @@
 {
   "name": "react-preloader",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Forked from https://github.com/sambernard/react-preload",
   "main": "lib/index.js",
   "scripts": {
