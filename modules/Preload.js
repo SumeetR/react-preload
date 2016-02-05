@@ -11,6 +11,9 @@ const propTypes = {
     // Array of content urls to be preloaded
     content: PropTypes.array,
 
+    // Shows percentage loaded
+    showPercentage: PropTypes.bool,
+
     // If set, the preloader will automatically show
     // the children content after this amount of time
     autoResolveDelay: PropTypes.number,
@@ -42,10 +45,12 @@ class Preload extends Component {
 
         this.state = {
             ready: false,
+            loaded: 0
         };
 
         this._handleSuccess = this._handleSuccess.bind(this);
         this._handleError = this._handleError.bind(this);
+        this._handleItemSuccess = this._handleItemSuccess.bind(this);
     }
 
     componentWillMount() {
@@ -57,7 +62,7 @@ class Preload extends Component {
     componentDidMount() {
         if (!this.state.ready) {
             ContentHelper
-                .loadContent(this.props.content)
+                .loadContent(this.props.content, this._handleItemSuccess.bind(this))
                 .then(this._handleSuccess, this._handleError);
 
             if (this.props.autoResolveDelay && this.props.autoResolveDelay > 0) {
@@ -72,6 +77,14 @@ class Preload extends Component {
         }
     }
 
+    _handleItemSuccess(success) {
+        if (success) {
+            this.setState({
+                loaded: this.state.loaded + 1
+            });
+        } 
+    }
+
     _handleSuccess() {
         if (this.autoResolveTimeout) {
             clearTimeout(this.autoResolveTimeout);
@@ -83,7 +96,7 @@ class Preload extends Component {
         }
 
         this.setState({
-            ready: true,
+            ready: true
         });
 
         if (this.props.onSuccess) {
@@ -102,7 +115,12 @@ class Preload extends Component {
     }
 
     render() {
-        return (this.state.ready && this.props.mountChildren ? this.props.children : this.props.loadingIndicator);
+        return (
+            <span>
+                {this.props.showPercentage ? <span>{Math.round((this.state.loaded*100)/this.props.content.length)}%</span> : null}
+                {this.state.ready && this.props.mountChildren ? this.props.children : this.props.loadingIndicator}
+            </span>
+        );
     }
 }
 

@@ -1,7 +1,7 @@
 import ContentCache from './ContentCache';
 
 const ContentHelper = {
-    loadItem(url) {
+    loadItem(url, callback) {
         const content = ContentCache.get(url);
 
         return new Promise((resolve, reject) => {
@@ -11,10 +11,16 @@ const ContentHelper = {
                     content.pause();
                     content.removeEventListener('playing', handleSuccess, false);
                 }
+                if (callback) {
+                    callback(true);
+                }
                 resolve(content);
             };
             const handleError = () => {
                 console.error('Content failed', content);
+                if (callback) {
+                    callback(false);
+                }
                 reject(content);
             };
 
@@ -34,8 +40,10 @@ const ContentHelper = {
         });
     },
 
-    loadContent(urls) {
-        const promises = urls.map(this.loadItem.bind(this));
+    loadContent(urls, callback) {
+        const promises = urls.map((url) => {
+            this.loadItem(url, callback)
+        });
         return Promise.all(promises);
     },
 
