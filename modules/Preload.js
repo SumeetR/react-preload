@@ -117,7 +117,7 @@ class Preload extends Component {
     render() {
         return (
             <span>
-                {this.props.showPercentage ? <span>{Math.round((this.state.loaded*100)/this.props.content.length)}%</span> : null}
+                {this.props.showPercentage ? <span>{Math.round((this.state.loaded*100)/this.props.content.length)}%&nbsp;</span> : null}
                 {this.state.ready && this.props.mountChildren ? this.props.children : this.props.loadingIndicator}
             </span>
         );

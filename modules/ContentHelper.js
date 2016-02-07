@@ -42,7 +42,7 @@ const ContentHelper = {
 
     loadContent(urls, callback) {
         const promises = urls.map((url) => {
-            this.loadItem(url, callback)
+            return this.loadItem(url, callback)
         });
         return Promise.all(promises);
     },
