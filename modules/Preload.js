@@ -45,6 +45,7 @@ class Preload extends Component {
 
         this.state = {
             ready: false,
+            error: false,
             loaded: 0
         };
 
@@ -109,6 +110,10 @@ class Preload extends Component {
             this._handleSuccess();
         }
 
+        this.setState({
+            error: true
+        });
+
         if (this.props.onError) {
             this.props.onError(err);
         }
@@ -117,8 +122,8 @@ class Preload extends Component {
     render() {
         return (
             <span>
-                {this.props.showPercentage ? <span>{Math.round((this.state.loaded*100)/this.props.content.length)}%&nbsp;</span> : null}
-                {this.state.ready && this.props.mountChildren ? this.props.children : this.props.loadingIndicator}
+                {this.props.showPercentage && !this.state.error ? <span>{Math.round((this.state.loaded*100)/this.props.content.length)}%&nbsp;</span> : null}
+                {!this.state.error ? <span>{this.state.ready && this.props.mountChildren ? this.props.children : this.props.loadingIndicator}</span> : null}
             </span>
         );
     }
