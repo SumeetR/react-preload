@@ -96,6 +96,12 @@ class Preload extends Component {
             return;
         }
 
+        if (this.state.loaded !== this.props.content.length) {
+            this.setState({
+                loaded: this.props.content.length
+            });
+        }
+
         this.setState({
             ready: true
         });
