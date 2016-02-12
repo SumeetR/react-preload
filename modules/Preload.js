@@ -86,7 +86,7 @@ class Preload extends Component {
         } 
     }
 
-    _handleSuccess() {
+    _handleSuccess(result) {
         if (this.autoResolveTimeout) {
             clearTimeout(this.autoResolveTimeout);
             console.warn('content failed to preload, auto resolving');
@@ -107,7 +107,7 @@ class Preload extends Component {
         });
 
         if (this.props.onSuccess) {
-            this.props.onSuccess();
+            this.props.onSuccess(result);
         }
     }
 
