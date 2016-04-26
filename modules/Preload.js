@@ -24,6 +24,9 @@ const propTypes = {
     // Success callback
     onSuccess: PropTypes.func,
 
+    // Success callback
+    onItemSuccess: PropTypes.func,
+
     // Whether or not we should still show the content
     // even if there is a preloading error
     resolveOnError: PropTypes.bool,
@@ -80,6 +83,9 @@ class Preload extends Component {
 
     _handleItemSuccess(success) {
         if (success) {
+            if (this.props.onItemSuccess) {
+                this.props.onItemSuccess(this.state.loaded + 1);
+            }
             this.setState({
                 loaded: this.state.loaded + 1
             });
